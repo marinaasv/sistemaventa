@@ -23,6 +23,14 @@ switch ($option) {
         $data = $admin->ventasSemana($fecha, $actual, $id_user);
         echo json_encode($data);
         break;
+    
+    case 'ventasMes':
+        $actual=date('Y,m');
+        $mes = date("Y-m", $fechaComoEntero);
+        $data=$admin->ventasMes($mes,$actual,$id_user);
+        echo json_encode($data);
+        break;
+
     case 'datos':
         $data = $admin->getDato();
         echo json_encode($data);

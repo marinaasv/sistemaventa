@@ -24,7 +24,7 @@ class AdminModel{
 
     public function topClientes($id_user)
     {
-        $consult = $this->pdo->prepare("SELECT SUM(v.total) AS total, c.nombre FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.idcliente WHERE id_usuario = ? GROUP BY v.id_cliente LIMIT 5");
+        $consult = $this->pdo->prepare("SELECT SUM(total) AS total, c.nombre FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.idcliente WHERE id_usuario = ? GROUP BY v.id_cliente LIMIT 5");
         $consult->execute([$id_user]);
         return $consult->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -33,6 +33,13 @@ class AdminModel{
     {
         $consult = $this->pdo->prepare("SELECT SUM(total) AS total, fecha FROM ventas WHERE fecha BETWEEN ? AND ? AND id_usuario = ? GROUP BY fecha");
         $consult->execute([$fecha, $actual, $id_user]);
+        return $consult->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ventasMes($mes, $id_user)
+    {
+        $consult = $this->pdo->prepare("SELECT SUM(total) AS total_mes, FROM ventas GROUP BY fecha ORDER BY fecha");
+        $consult->execute([$mes,$actual, $id_user]);
         return $consult->fetchAll(PDO::FETCH_ASSOC);
     }
 
